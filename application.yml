@@ -1,0 +1,80 @@
+logging.config: classpath:config/logback-spring.xml
+logging.path: ${user.home}/logs/${spring.application.name}
+logging.file: ${logging.path}/all.log
+logging.level.root: DEBUG
+
+server:
+  tomcat:
+    acceptCount: 0
+    maxThreads: 15
+    maxConnections: 12
+
+eureka:
+  environment: ${spring.profiles.active}
+  instance:
+    instance-id: ${hostname}/${spring.application.name}:${server.port}
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 10
+    lease-renewal-interval-in-seconds: 3
+    status-page-url-path: ${endpoints.info.path:/swagger-ui.html}
+    health-check-url-path: ${endpoints.info.path:/health}
+    metadata-map:
+      user.name: ${security.user.name}
+      user.password: ${security.user.password}
+      zone: ${spring.profiles.active}
+      management.context-path: ${server.contextPath:/}
+  server:
+    username: jupiter
+    password: 123456
+  client:
+    healthcheck.enabled: true
+    serviceUrl:
+      defaultZone: http://${eureka.server.username}:${eureka.server.password}@192.168.68.168:10001/eureka
+
+security:
+  user:
+    name: jupiter
+    password: 123456
+    
+management:
+  security.enabled: false
+  endpoints.web.exposure.include: '*'
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 9000
+          strategy: SEMAPHORE
+          semaphore:
+            maxConcurrentRequests: ${server.tomcat.maxThreads}
+        timeout:  
+          enabled: false
+
+ribbon:
+  ReadTimeout: 7000
+  ConnectTimeout: 4000
+  OKToRetryOnAllOperations: false
+
+spring:
+  profiles:
+    active: ${app.env:native}
+  datasource: 
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      driverClassName: com.jupiterframework.logging.sql.jdbcapi.ElapsedLoggingDriver
+      minimumIdle: 1
+      maximumPoolSize: 10
+      idleTimeout: 120000
+      leakDetectionThreshold: 30000
+      maxLifetime: 1800000
+  boot.admin:
+    client:
+      preferIp: true
+      metadata:
+        user.name: ${security.user.name}
+        user.password: ${security.user.password}
+    username: admin
+    password: 123456

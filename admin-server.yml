@@ -1,0 +1,14 @@
+server:
+  port: 10002
+  contextPath: /
+logging:
+  config: classpath:config/logback-spring.xml
+  level.root: INFO
+
+spring.boot.admin:
+  contextPath: /admin
+
+security:
+  user:
+    name: admin
+    password: 123456
