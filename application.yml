@@ -78,3 +78,11 @@ spring:
         user.password: ${security.user.password}
     username: admin
     password: 123456
+
+mybatis:
+  reloadMapper:
+    enabled: true
+    delaySecond: 10
+    sleepSeconds: 20
+  configuration:
+    defaultStatementTimeout: 10
