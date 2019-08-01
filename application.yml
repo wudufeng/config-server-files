@@ -66,7 +66,7 @@ spring:
     hikari:
       driverClassName: com.jupiterframework.logging.sql.jdbcapi.ElapsedLoggingDriver
       minimumIdle: 1
-      maximumPoolSize: 10
+      maximumPoolSize: 3
       idleTimeout: 120000
       leakDetectionThreshold: 30000
       maxLifetime: 1800000
@@ -78,6 +78,7 @@ spring:
         user.password: ${security.user.password}
     username: admin
     password: 123456
+  mvc.throwExceptionIfNoHandlerFound: true
 
 mybatis:
   reloadMapper:
