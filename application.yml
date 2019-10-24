@@ -14,7 +14,9 @@ eureka:
   instance:
     instance-id: ${hostname}/${spring.application.name}:${server.port}
     prefer-ip-address: true
-    lease-expiration-duration-in-seconds: 10
+    # default 90s
+    lease-expiration-duration-in-seconds: 9
+    # default 30s
     lease-renewal-interval-in-seconds: 3
     status-page-url-path: ${endpoints.info.path:/swagger-ui.html}
     health-check-url-path: ${endpoints.info.path:/health}

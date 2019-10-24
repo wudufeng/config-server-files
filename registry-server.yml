@@ -16,8 +16,9 @@ eureka:
     enabled: true
   server:
     enable-self-preservation: true
-    renewalPercentThreshold: 0.12
-    eviction-interval-timer-in-ms: 5000
+    renewalPercentThreshold: 0.85
+    # default 60000 ms
+    eviction-interval-timer-in-ms: 6000
     fetchRegistry: false
   client:
     registerWithEureka: true
